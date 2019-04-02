@@ -1,0 +1,8 @@
+Jenkins Master-Slave Configuration
+
+1. Slave Node Configuration for Jenkins
+a. Connect to Slave node through ssh
+b. Verify that java is installed
+java -version
+c. Verify and if not present add jenkins user
+adduser jenkins [useradd jenkins and set password]
