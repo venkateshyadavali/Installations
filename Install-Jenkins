@@ -1,0 +1,92 @@
+Installing Java, Maven, Git & Jenkins on Ubuntu 16.04
+
+Steps from  https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/
+
+Below are the steps to install Java, Maven, Git, Jenkins
+
+1. Install a machine with Ubuntu and enable all traffic [Refering QualityThought Portal references]
+
+2. Login to ubuntu system & execute below
+
+3. Installing tree
+sudo apt-get update
+sudo apt-get install tree
+sudo apt-get update
+
+4. Installing Java & Setting Java Environment Variables
+sudo apt-add-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+java -version
+
+# [Add JAVA_HOME and PATH env variables at end of /etc/profile file]
+sudo vi /etc/profile
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle/ 
+export PATH=$PATH:$HOME/bin:$JAVA_HOME/bin 
+
+5. Installing Maven & Setting environment variables
+cd /opt #[Change directory to /opt]
+sudo wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+sudo tar -zxvf apache-maven-3.5.4-bin.tar.gz
+sudo ln -s /opt/apache-maven-3.5.4/bin/mvn /usr/bin/mvn
+
+ls -l /usr/bin/mvn
+
+[ubuntu@ip-172-31-16-44:/opt$ ls -l /usr/bin/mvn
+lrwxrwxrwx 1 root root 31 Apr  2 08:59 /usr/bin/mvn -> /opt/apache-maven-3.5.4/bin/mvn
+ubuntu@ip-172-31-16-44:/opt$]
+
+# [Add M2_HOME and update PATH env variables at end of /etc/profile file]
+sudo vi /etc/profile
+M2_HOME=/opt/apache-maven-3.5.4
+PATH=$PATH:$M2_HOME/bin 
+export M2_HOME
+export PATH
+
+mvn -version
+
+6. Installing Git
+sudo apt-get update
+sudo apt-get install git
+
+7. Installing Jenkins
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+
+# Jenkins service will automatically start after the installation process is complete. You can verify it by printing the service status:
+systemctl status jenkins
+or
+service jenkins status
+
+Jenkins default username: admin
+# Administrator password is written to the log (/var/lib/jenkins/jenkins.log) and file (/var/lib/jenkins/secrets/initialAdminPassword).
+cat /var/lib/jenkins/secrets/initialAdminPassword
+or
+Search in the file /var/lib/jenkins/jenkins.log
+
+=====================================================================
+Other temp data
+-------------------------------
+Maven Installation instructions
+sudo apt-get update
+sudo apt-get install tree
+sudo apt-get update
+sudo apt install maven
+mvn -version
+sudo apt install default-jdk
+java -version
+
+wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz -P /tmp
+sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt
+sudo nano /etc/profile.d/maven.sh
+
+export JAVA_HOME=/usr/lib/jvm/default-java
+export M2_HOME=/opt/maven
+export MAVEN_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+sudo chmod +x /etc/profile.d/maven.sh
+
+source /etc/profile.d/maven.sh
